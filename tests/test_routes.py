@@ -158,6 +158,11 @@ class TestAccountService(TestCase):
         resp = self.client.put(f"{BASE_URL}/{upd_acc['id']}",json = upd_acc)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(resp.get_json()["name"],"Gloria")
+    
+    def test_delete_account(self):
+        acc = self._create_accounts(1)[0]
+        resp = self.client.delete(f"{BASE_URL}/{acc.id}")
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
   
 
