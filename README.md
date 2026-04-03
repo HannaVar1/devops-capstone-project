@@ -1,4 +1,7 @@
 # devops-capstone-project
+
+![Build Status](https://github.com/HannaVar1/devops-capstone-project/actions/workflows/ci-build.yaml/badge.svg)
+
 You have been asked by the customer account manager at your company to develop an account microservice to keep track of the customers on your e-commerce website. Since it is a microservice, it is expected to have a well-formed REST API that other microservices can call. This service initially needs to create, read, update, delete, and list customers.
 
 ## DevOps Capstone Template
