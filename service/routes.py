@@ -61,13 +61,13 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
+
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     data = Account.all()
     acc_list = [rec.serialize() for rec in data]
     app.logger.info(f"Number of accounts to return is {len(acc_list)}")
-    return jsonify(acc_list),status.HTTP_200_OK
-
+    return jsonify(acc_list), status.HTTP_200_OK
 
 
 ######################################################################
@@ -76,14 +76,15 @@ def list_accounts():
 
 @app.route("/accounts/<id>", methods=["GET"])
 def read_account(id):
-    resp  = Account.find(id)
+    resp = Account.find(id)
     if not resp:
-        abort(status.HTTP_404_NOT_FOUND,f"Account with id [{id}] could not be found.")
+        abort(status.HTTP_404_NOT_FOUND, f"Account with id [{id}] could not be found.")
     return resp.serialize(), status.HTTP_200_OK
 
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
+
 
 @app.route("/accounts/<int:id>", methods=["PUT"])
 def update_accounts(id):
