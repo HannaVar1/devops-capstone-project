@@ -136,32 +136,32 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         rec = response.get_json()
         self.assertEqual(rec["name"], account.name)
-    
+
     def test_account_not_found(self):
         response = self.client.get(
             f"{BASE_URL}/0",
-            content_type="application/json"                   
+            content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_get_account_list(self):
         self._create_accounts(6)
         resp = self.client.get(BASE_URL)
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)    
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
-        self.assertEqual(len(data),6)
+        self.assertEqual(len(data), 6)
 
     def test_update_account(self):
         acc = AccountFactory()
-        resp = self.client.post(BASE_URL,json = acc.serialize())
+        resp = self.client.post(BASE_URL, json = acc.serialize())
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
-        
+
         upd_acc = resp.get_json()
         upd_acc["name"] = "Gloria"
-        resp = self.client.put(f"{BASE_URL}/{upd_acc['id']}",json = upd_acc)
+        resp = self.client.put(f"{BASE_URL}/{upd_acc['id']}", json=upd_acc)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertEqual(resp.get_json()["name"],"Gloria")
-    
+        self.assertEqual(resp.get_json()["name"], "Gloria")
+
     def test_delete_account(self):
         acc = self._create_accounts(1)[0]
         resp = self.client.delete(f"{BASE_URL}/{acc.id}")
@@ -170,9 +170,9 @@ class TestAccountService(TestCase):
     def test_method_not_allowed(self):
         resp = self.client.delete(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-    
+
     def test_security_headers(self):
-        resp = self.client.get('/',environ_overrides=HTTPS_ENVIRON)
+        resp = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         headers = { 
             'X-Frame-Options': 'SAMEORIGIN',
@@ -182,12 +182,8 @@ class TestAccountService(TestCase):
         }
         for key, value in headers.items():
             self.assertEqual(resp.headers.get(key), value)
-    
-    def test_cors_policies(self):
-        resp = self.client.get('/',environ_overrides=HTTPS_ENVIRON)
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertEqual(resp.headers.get('Access-Control-Allow-Origin'),'*')
-        
-        
 
-    
+    def test_cors_policies(self):
+        resp = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(resp.headers.get('Access-Control-Allow-Origin'), '*')
