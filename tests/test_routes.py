@@ -153,7 +153,7 @@ class TestAccountService(TestCase):
 
     def test_update_account(self):
         acc = AccountFactory()
-        resp = self.client.post(BASE_URL, json = acc.serialize())
+        resp = self.client.post(BASE_URL, json=acc.serialize())
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
 
         upd_acc = resp.get_json()
@@ -174,7 +174,7 @@ class TestAccountService(TestCase):
     def test_security_headers(self):
         resp = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        headers = { 
+        headers = {
             'X-Frame-Options': 'SAMEORIGIN',
             'X-Content-Type-Options': 'nosniff',
             'Content-Security-Policy': 'default-src \'self\'; object-src \'none\'',
